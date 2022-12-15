@@ -3,7 +3,7 @@
 require 'mkmf'
 require 'timeout'
 
-$CXXFLAGS << " -std=c++11"
+$CXXFLAGS << " -std=c++14"
 
 def sys(cmd)
   puts " -- #{cmd}"
@@ -44,9 +44,9 @@ unless MAKE
   abort 'ERROR: GNU make is required to build Google Robotstxt Parser.'
 end
 
-# CWD = __dir__
-# LIBROBOTSTXT_DIR = File.join(CWD, 'robotstxt')
-LIBROBOTSTXT_DIR = File.join('.', 'robotstxt')
+CWD = __dir__
+LIBROBOTSTXT_DIR = File.join(CWD, 'robotstxt')
+# LIBROBOTSTXT_DIR = File.join('.', 'robotstxt')
 
 LIBDIR = RbConfig::CONFIG['libdir']
 INCLUDEDIR = RbConfig::CONFIG['includedir']
@@ -59,6 +59,8 @@ HEADER_DIRS = [
 LIB_DIRS = [
   "#{LIBROBOTSTXT_DIR}/c-build"
 ]
+
+system('git submodule update --init --recursive')
 
 Dir.chdir(LIBROBOTSTXT_DIR) do
   Dir.mkdir('c-build') unless Dir.exist?('c-build')
